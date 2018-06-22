@@ -1,0 +1,30 @@
+reference:
+  - title: Main functions
+    contents:
+    - all_permutations
+    - compute_Sk
+    - circular_test
+    - get_critical_values
+  - title: Test statistic functions
+    contents:
+    - dixon
+    - rao
+    - savage
+    - van.der.Waerden
+    - wheeler_watson
+    - wilcoxon
+  - title: Datasets
+    contents:
+    - pigeons
+  - title: Internal functions
+    contents:
+    - MC_pvalue
+    - get_bracket
+
+navbar:
+  left:
+  - text: Reference
+    href: reference/index.html
+  right:
+  - icon: fa-github
+    href: https://github.com/SMAC-Group/simts

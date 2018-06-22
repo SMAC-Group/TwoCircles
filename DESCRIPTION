@@ -1,0 +1,21 @@
+Package: circTest
+Type: Package
+Title: Two-sample Tests for Circular Data
+Version: 1.0
+Date: 2018-06-19
+LazyData: true
+Authors@R: c(
+    person("Stephane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre")),
+    person("S. Rao", "Jammalamadaka", role = "aut")
+    )
+Maintainer: Stephane Guerrier <stef.guerrier@gmail.com>
+Description: Exact Distributions and Performance of some Two-sample Nonparametric Tests for Circular Data
+Depends:
+    R (>= 3.1.0)
+License: CC BY-NC-SA 4.0
+Imports:
+    gRbase
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr
+URL: https://github.com/SMAC-Group/circTest
+BugReports: https://github.com/SMAC-Group/circTest/issues
