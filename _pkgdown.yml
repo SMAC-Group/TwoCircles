@@ -1,3 +1,7 @@
+template:
+  params:
+    bootswatch: flatly
+
 reference:
   - title: Main functions
     contents:
