@@ -5,4 +5,9 @@ sudo: false
 cache: packages
 
 install:
+  - R -e 'install.packages("devtools")'
   - R -e 'source("http://bioconductor.org/biocLite.R"); devtools::install_bioc(c("graph","RBGL"))'
+  - R -e 'devtools::install_deps(dep = T)'
+
+repos:
+CRAN: http://cran.rstudio.com
