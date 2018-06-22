@@ -3,3 +3,6 @@
 language: R
 sudo: false
 cache: packages
+
+install:
+  - R -e 'source("http://bioconductor.org/biocLite.R"); devtools::install_bioc(c("graph","RBGL"))'
