@@ -4,6 +4,8 @@ language: R
 sudo: false
 cache: packages
 
+warnings_are_errors: false
+
 install:
   - R -e 'install.packages("devtools")'
   - R -e 'source("http://bioconductor.org/biocLite.R"); devtools::install_bioc(c("graph","RBGL"))'
