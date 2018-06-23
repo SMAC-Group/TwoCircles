@@ -8,7 +8,7 @@ Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostat
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN](http://www.r-pkg.org/badges/version/simts)](https://cran.r-project.org/package=circTest)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2018--06--22-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2018--06--23-yellowgreen.svg)](/commits/master)
 
 # `circTest` Overview
 
