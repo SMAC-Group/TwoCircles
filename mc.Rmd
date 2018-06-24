@@ -18,7 +18,7 @@ where $i= 1,...,m-1$ and $j = 1,...,n$.
 - Step 4: if $k < B$, let $k = k + 1$ and go to step 2; otherwise go to Step 5.
 - Step 5: compute estimated pvalues:
 \begin{equation}
-\widehat{\text{pval}} = \frac{1}{B} \sum_{b = 1}^B I_{T \geq T^{(b)}}
+\widehat{\text{pval}} = \frac{1}{B} \sum_{b = 1}^B I_{T \leq T^{(b)}}
 \end{equation}
 where $I$ denote the indicator function.
 
@@ -95,4 +95,4 @@ for (i in 1:H){
 (emp_cov = mean(test))
 ```
 
-Therefore, we obtain an empirical coverage of `r emp_cov`.
+Therefore, we obtain an empirical coverage of `r round(100*emp_cov,1)`%.
