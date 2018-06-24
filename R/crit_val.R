@@ -14,7 +14,7 @@
 #'  }
 #' @export
 MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
-  set.seed(1982)
+  set.seed(seed)
   res = rep(NA, B)
 
   if (test == "dixon"){
@@ -78,6 +78,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
 #' for Savage test
 #' @param \code{alpha} significance level (default = 0.05)
 #' @param \code{B} number of bootstrap replications
+#' @param \code{seed} seed used for random number generation
 #' @param \code{type} method to compute pvalues (available methods: \code{exact} for exact computation (default) which is appropriate for small sample sizes;
 #' \code{mc} for approximation based on Monte-carlo simulations)
 #' @return A list with the following structure:
@@ -101,7 +102,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
 #'
 #' # Dixon test (approximated pvalue)
 #' circular_test( pigeons$experimental, pigeons$control, type = "mc")
-circular_test = function(x, y, test = "dixon", alpha = 0.05, B = NULL, type = "exact"){
+circular_test = function(x, y, test = "dixon", alpha = 0.05, B = NULL, type = "exact", seed = 1982){
   spacings = compute_Sk(x,y)
 
   if (sum(c("exact","mc") %in% type) == 0){
@@ -147,7 +148,7 @@ circular_test = function(x, y, test = "dixon", alpha = 0.05, B = NULL, type = "e
       B = 10^4
     }
     cv = NULL
-    mc = MC_pvalue(stat, spacings$n, spacings$m, test, B = B)
+    mc = MC_pvalue(stat, spacings$n, spacings$m, test, B = B, seed = seed)
   }
 
   out = list(cv = cv, mc = mc, B = B, alpha = alpha, test = test, stat = stat,

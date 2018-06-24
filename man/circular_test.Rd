@@ -5,7 +5,7 @@
 \title{Two sample Test of Homogeneity}
 \usage{
 circular_test(x, y, test = "dixon", alpha = 0.05, B = NULL,
-  type = "exact")
+  type = "exact", seed = 1982)
 }
 \arguments{
 \item{\code{x}}{first sample}
@@ -20,6 +20,8 @@ for Savage test}
 \item{\code{alpha}}{significance level (default = 0.05)}
 
 \item{\code{B}}{number of bootstrap replications}
+
+\item{\code{seed}}{seed used for random number generation}
 
 \item{\code{type}}{method to compute pvalues (available methods: \code{exact} for exact computation (default) which is appropriate for small sample sizes;
 \code{mc} for approximation based on Monte-carlo simulations)}

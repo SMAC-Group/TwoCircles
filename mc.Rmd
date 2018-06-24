@@ -1,0 +1,98 @@
+---
+title: "Monte Carlo"
+output: html_document
+---
+
+To compute the pvalues I tried various things but what seems to work best is the following approach. For a given observed test statistic $T$ and number of simulations $B$:
+
+- Step 1: Let $k = 1$
+- Step 2: simulate two uniform random vectors:
+\begin{equation}
+\begin{aligned}
+X^{\star}_i &\sim \mathcal{U}(0,1)\\
+Y^{\star}_j &\sim \mathcal{U}(0,1),
+\end{aligned}
+\end{equation}
+where $i= 1,...,m-1$ and $j = 1,...,n$. 
+- Step 3: compute test statistic based on the spacings obtained on the simulated samples $X^{\star}$ and $Y^{\star}$. Denote this statistic $T^{(k)}$.
+- Step 4: if $k < B$, let $k = k + 1$ and go to step 2; otherwise go to Step 5.
+- Step 5: compute estimated pvalues:
+\begin{equation}
+\widehat{\text{pval}} = \frac{1}{B} \sum_{b = 1}^B I_{T \geq T^{(b)}}
+\end{equation}
+where $I$ denote the indicator function.
+
+Here is a simple simulation to illustrate the performance of the approximation.
+
+```{r, cache = TRUE}
+library(circTest)  
+set.seed(17)
+X = 360*runif(7)
+Y = 360*runif(8)
+exact_test = circular_test(X, Y, test = "dixon")
+(exact_pval = mean(exact_test$stat <= exact_test$cv$dist))
+```
+
+By simulations with $B = 10^4$ we obtain:
+
+```{r, cache = TRUE}
+mc_test = circular_test(X, Y, test = "dixon", type = "mc") 
+(mc_pval = mean(mc_test$stat <= mc_test$mc$dist))
+```
+ 
+Let's repeat this $10^3$ times with $B = 10^3$ and $B = 10^4$...
+
+```{r, cache=TRUE}
+H = 10^3
+pval = matrix(NA, H, 2)
+B = c(10^3, 10^4)
+
+for (j in 1:length(B)){
+  for (i in 1:H){
+  mc_test = circular_test(X, Y, test = "dixon", type = "mc", seed = i, B = B[j])
+  pval[i,j] = mean(mc_test$stat <= mc_test$mc$dist)
+  }
+}
+```
+
+```{r}
+boxplot(pval, col = "lightgrey", names = c("B = 10^3", "B = 10^4"))
+abline(h = exact_pval, col = 2, lwd = 2)
+```
+
+We can also obtain an estimation of precision of the obtained p-value by non-parametric bootstrap. For example, we could do:
+
+```{r}
+pval_boot = function(out, B = 10^3, alpha = 0.05){
+  pval = rep(NA, B)
+  n = length(out$mc$dist)
+  for (i in 1:B){
+    dist_star = out$mc$dist[sample(1:n, replace = TRUE)]
+    pval[i] = mean(out$stat <= dist_star)
+  }
+  list(sd = sd(pval), quant = as.numeric(quantile(pval, probs = c(alpha/2, 1 - alpha/2))))
+}
+```
+
+Using our previous example, we obtain:
+
+```{r}
+pval_boot(mc_test)
+```
+
+which seems reasonable given the boxplot presented above. 
+
+Finally, we study the coverage properties using $10^3$ simulations of this method for 95% confidence intervals with $B = 10^4$.
+
+```{r, cache=TRUE}
+H = 10^3
+test = rep(NA, H)
+for (i in 1:H){
+  mc_test = circular_test(X, Y, test = "dixon", type = "mc", seed = i)
+  ci = pval_boot(mc_test)$quant 
+  test[i] = (ci[1] < exact_pval) && (ci[2] > exact_pval)
+}
+(emp_cov = mean(test))
+```
+
+Therefore, we obtain an empirical coverage of `r emp_cov`.
