@@ -29,7 +29,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
     for (i in 1:B){
       x = runif(m-1)
       y = runif(n)
-      res[i] = wilcox(compute_Sk(x,y)$Sk)
+      res[i] = wilcoxon(compute_Sk(x,y)$Sk)
     }
   }
 
@@ -118,7 +118,7 @@ circular_test = function(x, y, test = "dixon", alpha = 0.05, B = NULL, type = "e
   }
 
   if (test == "wilcox"){
-    stat = wilcox(spacings$Sk)
+    stat = wilcoxon(spacings$Sk)
   }
 
   if (test == "rao"){
@@ -183,9 +183,20 @@ print.circular_test = function(out){
     cat(paste("c1 = ",round(out$cv$brackets$c1,4) , " (p1 = " ,formatC( round(out$cv$brackets$p1,4), format='f', digits=4)  , ")\n", sep = ""))
     cat(paste("c2 = ", round(out$cv$brackets$c2,4) , " (p2 = " ,formatC( round(out$cv$brackets$p2,4), format='f', digits=4)  , ")\n", sep = ""))
   }else{
-    cat(paste("Approx. P-value: ", round(mean(out$stat <= out$mc$dist), 5), "\n", sep = ""))
+    cat(paste("Approx. P-value: ", round((1 + sum(out$stat <= out$mc$dist))/(length(out$mc$dist) + 1), 5), "\n", sep = ""))
+    cat(paste("P-value stand. error: ", round(np_boot_pval(x = out$mc$dist, cut = out$stat), 7), "\n", sep = ""))
     cat(paste("based on ", out$B, " Monte-Carlo replications", sep = ""))
   }
+}
+
+np_boot_pval = function(x, cut, B = 10000){
+  res = rep(NA, B)
+  n = length(x)
+  for (i in 1:B){
+    xstar = sample(x, replace = TRUE)
+    res[i] = (1 + sum(xstar <= cut))/(n + 1)
+  }
+  sd(res)
 }
 
 #' @title Plot null distribution associated to two sample test of Homogeneity
