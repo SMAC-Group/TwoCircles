@@ -44,7 +44,7 @@ circular_test(pigeons$experimental, pigeons$control, type = "mc")
 
 It is also possible to compare the exact distribution of the test statistic under $H_0$ to the one obtained by simulations. This can be done as follows:
 
-```{r, fig.align='center', fig.width=8, fig.height=8, cache = TRUE}
+```{r, fig.align='center', fig.width=8, fig.height=8, cache = FALSE}
 par(mfrow = c(2,2))
 plot(circular_test(pigeons$experimental, pigeons$control), cex.main = 0.7)
 plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^2), cex.main = 0.7)
@@ -55,14 +55,14 @@ plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^6)
 It is also possible to vizualize the (exact or approximated) distirbution of the test statistics under $H_0$.
 This illustrated with Rao and Dixon tests on the same dataset.
 
-```{r, fig.width=8, fig.height=4.5, cache = TRUE}
+```{r, fig.width=8, fig.height=4.5, cache = FALSE}
 test_rao = circular_test(pigeons$control, pigeons$experimental, test = "rao")
 test_rao
 par(mfrow = c(1,2))
 plot(test_rao, cex.main = 0.7)
 
 test_wilcox = circular_test(pigeons$control, pigeons$experimental, test = "wilcox")
-test_wilcox
+test_wilcox 
 plot(test_wilcox, cex.main = 0.7)
 ```
 
