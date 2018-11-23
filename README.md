@@ -8,7 +8,7 @@ Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostat
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN](http://www.r-pkg.org/badges/version/TwoCircles)](https://cran.r-project.org/package=TwoCircles)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2018--11--22-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2018--11--23-yellowgreen.svg)](/commits/master)
 
 # `TwoCircles` Overview
 
@@ -19,10 +19,8 @@ following test are considered:
 
   - `dixon`: for Dixon test,
   - `rao`: for Rao test,
-  - `ww`: for Wheeler-Watson,
   - `wilcox`: for Wilcoxon test,
-  - `vdw` for van der Waerden test,
-  - `savage` for Savage test.
+  - `vdw` for van der Waerden test.
 
 The code below presents a simple example with the pigeons dataset of
 Schmidt-Koenig (1958).
@@ -60,50 +58,24 @@ statistic under \(H_0\) to the one obtained by simulations. This can be
 done as follows:
 
 ``` r
-par(mfrow = c(2,2))
+par(mfrow = c(1,2))
 plot(circular_test(pigeons$experimental, pigeons$control), cex.main = 0.7)
-plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^2), cex.main = 0.7)
-plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^4), cex.main = 0.7)
-plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^6), cex.main = 0.7)
+plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^3), cex.main = 0.7)
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
-It is also possible to vizualize the (exact or approximated)
-distirbution of the test statistics under \(H_0\). This illustrated with
-Rao and Dixon tests on the same
-dataset.
-
-``` r
-test_rao = circular_test(pigeons$control, pigeons$experimental, test = "rao")
-test_rao
-#> 
-#>       Rao Two Sample Test
-#> 
-#> Data:  pigeons$control and pigeons$experimental
-#> Test Statistic: 14
-#> Exact P-value: 0.05126
-#> Bracketing Points and Pair of Signif. Levels:
-#> c1 = 14 (p1 = 0.0513)
-#> c2 = 16 (p2 = 0.0045)
-par(mfrow = c(1,2))
-plot(test_rao, cex.main = 0.7)
-
-test_dixon = circular_test(pigeons$control, pigeons$experimental, test = "dixon")
-test_dixon
-#> 
-#>       Dixon Two Sample Test
-#> 
-#> Data:  pigeons$control and pigeons$experimental
-#> Test Statistic: 42
-#> Exact P-value: 0.07204
-#> Bracketing Points and Pair of Signif. Levels:
-#> c1 = 42 (p1 = 0.0720)
-#> c2 = 44 (p2 = 0.0370)
-plot(test_dixon, cex.main = 0.7)
-```
-
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+The simulation-based approach is proposed here as an alternative to make
+computation faster when the samples are too large to allow for the
+calculation of the exact sampling distribution through exhaustive
+enumeration of all possible combinations. When the number of Monte-Carlo
+replication is relatively large (say around \(10^3\) or more) the
+results with the exact and approximated method are very close. In
+addition, this method also provides an estimate of the standard error
+associated to the obtained p-value, which is computed by nonparametric
+bootstrap. The precision of the simulation-based approach is illustrated
+in the simple simulation presented below where we compared the p-values
+obtained with the exact and simulation-based method.
 
 ``` r
 # Number of simulations
@@ -142,17 +114,4 @@ hist(100*(exact_pval-mc_pval[,2]), col = "lightgrey", probability = TRUE, xlab =
 hist(100*(exact_pval-mc_pval[,3]), col = "lightgrey", probability = TRUE, xlab = "Exact p-value - MC p-value (%)", main = "B = 100,000", xlim = c(-0.5, 2))
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
-
-## Install Instructions
-
-To install the `TwoCircles` package, there is currently one option:
-[GitHub](https://github.com/SMAC-Group/TwoCircles/).
-
-``` r
-# Install dependencies
-install.packages(c("gRbase","circular"))
-
-# Install the package from GitHub
-devtools::install_github("SMAC-Group/TwoCircles")
-```
+<img src="man/figures/README-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />

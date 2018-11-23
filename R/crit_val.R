@@ -210,7 +210,8 @@ np_boot_pval = function(x, cut, B = 10000){
 #' @examples
 #' data(pigeons)
 #' plot(circular_test(pigeons$experimental, pigeons$control))
-plot.circular_test = function(out, cex.main = 1){
+plot.circular_test = function(x, cex.main = 1){
+  out = x
   test_list = c("dixon", "wilcox", "rao", "vdw", "savage", "ww")
   test_name = c("Dixon", "Wilcoxon", "Rao", "van der Waerden", "Savage", "Wheeler-Watson")
 
@@ -223,7 +224,7 @@ plot.circular_test = function(out, cex.main = 1){
     titre = paste("Approx. distribution for ", test_name[test_list %in% out$test],
           " test with n = ", out$spacings$n, " and m = ", out$spacings$m, "\n Test Statistic: ",
           round(out$stat,4), " ; P-value: ", round(mean(out$stat <= out$mc$dist), 4), sep = "")
-    plot.circ_test(out$mc, main = titre, cex.main = cex.main)
+    plot.critical_values(out$mc, main = titre, cex.main = cex.main)
   }
   abline(v = out$stat, lty = 2, col = "red")
   #legend("topright", "Test Statistic", lty = 2, lwd = 1, col = "red", bty = "n")
