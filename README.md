@@ -65,17 +65,18 @@ plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^3)
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
-The simulation-based approach is proposed here as an alternative to make
-computation faster when the samples are too large to allow for the
-calculation of the exact sampling distribution through exhaustive
-enumeration of all possible combinations. When the number of Monte-Carlo
-replication is relatively large (say around \(10^3\) or more) the
-results with the exact and approximated method are very close. In
-addition, this method also provides an estimate of the standard error
-associated to the obtained p-value, which is computed by nonparametric
-bootstrap. The precision of the simulation-based approach is illustrated
-in the simple simulation presented below where we compared the p-values
-obtained with the exact and simulation-based method.
+The simulation-based approach is proposed here as an alternative to
+reduce the computational burden of then method when the samples are too
+large to allow for the calculation of the exact sampling distribution
+through exhaustive enumeration of all possible combinations. When the
+number of Monte-Carlo replication is relatively large (say around
+\(10^3\) or more) the results with the exact and approximated method are
+very close. In addition, this method also provides an estimate of the
+standard error associated to the obtained p-value, which is computed by
+nonparametric bootstrap. The precision of the simulation-based approach
+is illustrated in the simple simulation presented below where we
+compared the p-values obtained with the exact and simulation-based
+method.
 
 ``` r
 # Number of simulations
@@ -105,6 +106,9 @@ for (i in 1:B){
 }
 ```
 
+The difference between the p-values obtained from the two methods are
+presented in the histograms below:
+
 ``` r
 par(mfrow = c(1,3))
 hist(100*(exact_pval-mc_pval[,1]), col = "lightgrey", probability = TRUE, xlab = "Exact p-value - MC p-value (%)", main = "B = 1,000", xlim = c(-0.5, 2))
@@ -115,3 +119,16 @@ hist(100*(exact_pval-mc_pval[,3]), col = "lightgrey", probability = TRUE, xlab =
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+
+## Install Instructions
+
+To install the `TwoCircles` package, there is currently one option:
+[GitHub](https://github.com/SMAC-Group/TwoCircles/).
+
+``` r
+# Install dependencies
+install.packages(c("gRbase", "circular", "devtools"))
+
+# Install the package from GitHub
+devtools::install_github("SMAC-Group/TwoCircles")
+```

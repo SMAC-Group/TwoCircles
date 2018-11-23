@@ -4,7 +4,7 @@
 \alias{plot.circular_test}
 \title{Plot null distribution associated to two sample test of Homogeneity}
 \usage{
-\method{plot}{circular_test}(out, cex.main = 1)
+\method{plot}{circular_test}(x, cex.main = 1)
 }
 \arguments{
 \item{x}{A \code{circular_test} object}
