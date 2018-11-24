@@ -8,7 +8,7 @@ Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostat
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN](http://www.r-pkg.org/badges/version/TwoCircles)](https://cran.r-project.org/package=TwoCircles)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2018--11--23-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2018--11--24-yellowgreen.svg)](/commits/master)
 
 # `TwoCircles` Overview
 
@@ -20,7 +20,7 @@ following test are considered:
   - `dixon`: for Dixon test,
   - `rao`: for Rao test,
   - `wilcox`: for Wilcoxon test,
-  - `vdw` for van der Waerden test.
+  - `ww` for Wheeler-Watson test.
 
 The code below presents a simple example with the pigeons dataset of
 Schmidt-Koenig (1958).

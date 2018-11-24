@@ -27,7 +27,7 @@ This package implements various nonparametric methods for testing whether two ci
 * `dixon`: for Dixon test,
 * `rao`: for Rao test,
 * `wilcox`: for Wilcoxon test,
-* `vdw` for van der Waerden test.
+* `ww` for Wheeler-Watson test.
 
 The code below presents a simple example with the pigeons dataset of Schmidt-Koenig (1958). 
 
