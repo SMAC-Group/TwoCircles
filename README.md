@@ -8,7 +8,7 @@ Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostat
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN](http://www.r-pkg.org/badges/version/TwoCircles)](https://cran.r-project.org/package=TwoCircles)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2018--11--24-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2020--06--13-yellowgreen.svg)](/commits/master)
 
 # `TwoCircles` Overview
 
@@ -36,10 +36,10 @@ circular_test(pigeons$experimental, pigeons$control)
 #> 
 #> Data:  pigeons$experimental and pigeons$control
 #> Test Statistic: 41
-#> Exact P-value: 0.02096
+#> Exact P-value: 0.02982
 #> Bracketing Points and Pair of Signif. Levels:
-#> c1 = 33 (p1 = 0.0567)
-#> c2 = 35 (p2 = 0.0460)
+#> c1 = 35 (p1 = 0.0619)
+#> c2 = 39 (p2 = 0.0471)
 
 # Dixon test (approximated pvalue)
 circular_test(pigeons$experimental, pigeons$control, type = "mc")
@@ -48,8 +48,8 @@ circular_test(pigeons$experimental, pigeons$control, type = "mc")
 #> 
 #> Data:  pigeons$experimental and pigeons$control
 #> Test Statistic: 41
-#> Approx. P-value: 0.0228
-#> P-value stand. error: 0.0009575
+#> Approx. P-value: 0.0437
+#> P-value stand. error: 0.0013297
 #> based on 10000 Monte-Carlo replications
 ```
 
@@ -127,7 +127,7 @@ To install the `TwoCircles` package, there is currently one option:
 
 ``` r
 # Install dependencies
-install.packages(c("gRbase", "circular", "devtools"))
+install.packages(c("circular", "devtools"))
 
 # Install the package from GitHub
 devtools::install_github("SMAC-Group/TwoCircles")

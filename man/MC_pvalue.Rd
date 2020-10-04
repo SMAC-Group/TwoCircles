@@ -4,7 +4,7 @@
 \alias{MC_pvalue}
 \title{Monte-carlo simulation function to compute pvalues}
 \usage{
-MC_pvalue(stat, n, m, test, B = 10^4, seed = 1982)
+MC_pvalue(stat, n, m, test, B = 10^4, seed = 1982, circle = TRUE)
 }
 \arguments{
 \item{\code{stat}}{observed test statistics}
@@ -12,6 +12,8 @@ MC_pvalue(stat, n, m, test, B = 10^4, seed = 1982)
 \item{\code{n}}{total of frequencies}
 
 \item{\code{m}}{number of spacings}
+
+\item{\cite{circle}}{boolean to indicate circular data}
 }
 \value{
 A list with the following structure:

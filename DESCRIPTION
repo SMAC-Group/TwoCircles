@@ -11,10 +11,8 @@ Authors@R: c(
 Maintainer: Stephane Guerrier <stef.guerrier@gmail.com>
 Description: Exact Distributions and Performance of some Two-sample Nonparametric Tests for Circular Data
 Depends:
-    R (>= 3.1.0)
+    R (>= 3.6.0)
 License: CC BY-NC-SA 4.0
-Imports:
-    gRbase
-RoxygenNote: 6.1.0
+RoxygenNote: 7.1.0
 URL: https://github.com/SMAC-Group/TwoCircles
 BugReports: https://github.com/SMAC-Group/TwoCircles/issues

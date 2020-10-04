@@ -4,7 +4,7 @@
 \alias{compute_Sk}
 \title{Compute spacing frequencies}
 \usage{
-compute_Sk(x, y)
+compute_Sk(x, y, circle)
 }
 \arguments{
 \item{\code{x}}{first sample}

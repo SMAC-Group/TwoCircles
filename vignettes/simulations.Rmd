@@ -1,0 +1,136 @@
+---
+title: "Simulation Study"
+output: 
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Simulations Study}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Simulation 1
+
+```{r simu1, cache=TRUE, warning=FALSE}
+# Load packages
+library(CircStats)
+library(TwoCircles)
+
+# Sample sizes
+n1 = c(4,8) 
+n2 = c(12,8)
+
+# Define alpha
+alpha = 0.05
+
+# Define mu
+mu.max = pi
+mu.length = 20
+mu = seq(from = 0, to = mu.max, length.out = mu.length)
+
+# Number of bootstrap replication
+B = 10^4
+
+# Results
+res_rao = res_dixon = res_WW = matrix(NA, 2, mu.length)
+
+for (k in 1:2){
+	n = n2[k]
+	m = n1[k]
+	
+	# Get critical values
+	C.rao = get_critical_values(n = n, m = m, test = "rao", alpha = alpha)$brackets$c2
+	C.dixon = get_critical_values(n = n, m = m, test = "dixon", alpha = alpha)$brackets$c2
+	C.WW = get_critical_values(n = n, m = m, test = "ww", alpha = alpha)$brackets$c2
+
+	# Initialisation of results matrix
+	rao_results = matrix(NA, B, mu.length)
+	dixon_results = matrix(NA, B, mu.length)
+	WW_results = matrix(NA, B, mu.length)
+	
+	# Start simu
+	for (i in 1:length(mu)){
+		for (j in 1:B){
+			# Simulation sample
+		 	x = rvm(n1[k], 0, 2)
+			y = rvm(n2[k], mu[i], 2)
+
+			# Compute Rao Stat
+			rao_results[j,i] = circular_test(x, y, test = "rao")$stat >= C.rao	
+
+			# Compute Dixon Stat
+			dixon_results[j,i] = circular_test(x, y, test = "dixon")$stat >= C.dixon
+
+			# Compute van der Waerden Stat
+			WW_results[j,i] = circular_test(x, y, test = "ww")$stat >= C.WW
+		}
+	}
+	
+	# Save results
+	res_rao[k,] = 100*(apply(rao_results,2,mean))
+	res_dixon[k,] = 100*(apply(dixon_results,2,mean))
+	res_WW[k,] = 100*(apply(WW_results,2,mean))
+}
+```
+
+
+```{r, eval=FALSE}
+# Sample sizes
+n1 = c(6,8)
+n2 = c(12,10)
+
+# Define alpha
+alpha = 0.05
+
+# Define mu
+mu.max = 2
+mu.length = 20
+mu = seq(from = 0, to = mu.max, length.out = mu.length)
+
+# Number of bootstrap replication
+B = 10^4
+
+# Results
+res_rao = res_dixon = res_WW = matrix(NA, 2, mu.length)
+
+for (k in 1:2){
+  n = n2[k]
+  m = n1[k]
+
+  # Get critical values
+  C.rao = get_critical_values(n = n, m = m, test = "rao", alpha = alpha)$brackets$c2
+  C.dixon = get_critical_values(n = n, m = m, test = "dixon", alpha = alpha)$brackets$c2
+  C.WW = get_critical_values(n = n, m = m, test = "ww", alpha = alpha)$brackets$c2
+
+  # Initialisation of results matrix
+  rao_results = matrix(NA, B, mu.length)
+  dixon_results = matrix(NA, B, mu.length)
+  WW_results = matrix(NA, B, mu.length)
+
+  # Start simu
+  for (i in 1:length(mu)){
+    for (j in 1:B){
+      # Control seed
+      set.seed(j)
+
+      # Simulation sample
+      x = rvm(n1[k], 0, 2)
+      y = rvm(n2[k], 0, 2 + mu[i])
+
+      # Compute Rao Stat
+      rao_results[j,i] = circular_test(x, y, test = "rao")$stat >= C.rao
+
+      # Compute Dixon Stat
+      dixon_results[j,i] = circular_test(x, y, test = "dixon")$stat >= C.dixon
+
+      # Compute van der Waerden Stat
+      WW_results[j,i] = circular_test(x, y, test = "ww")$stat >= C.WW
+    }
+  }
+
+  # Save results
+  res_rao[k,] = 100*(apply(rao_results,2,mean))
+  res_dixon[k,] = 100*(apply(dixon_results,2,mean))
+  res_WW[k,] = 100*(apply(WW_results,2,mean))
+}
+```

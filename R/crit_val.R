@@ -5,6 +5,7 @@
 #' @param \code{stat} observed test statistics
 #' @param \code{n} total of frequencies
 #' @param \code{m} number of spacings
+#' @param \cite{circle} boolean to indicate circular data
 #' @return A list with the following structure:
 #' \describe{
 #'  \item{dist}{a \code{vector} containing the approximate distribution of the test statistic}
@@ -13,7 +14,7 @@
 #'  \item{test}{the considered test}
 #'  }
 #' @export
-MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
+MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982, circle = TRUE){
   set.seed(seed)
   res = rep(NA, B)
 
@@ -21,7 +22,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
     for (i in 1:B){
       x = runif(m-1)
       y = runif(n)
-      res[i] = dixon(compute_Sk(x,y)$Sk)
+      res[i] = dixon(compute_Sk(x,y, circle = circle)$Sk)
     }
   }
 
@@ -29,7 +30,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
     for (i in 1:B){
       x = runif(m-1)
       y = runif(n)
-      res[i] = wilcoxon(compute_Sk(x,y)$Sk)
+      res[i] = wilcoxon(compute_Sk(x,y, circle = circle)$Sk)
     }
   }
 
@@ -37,7 +38,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
     for (i in 1:B){
       x = runif(m-1)
       y = runif(n)
-      res[i] = rao(compute_Sk(x,y)$Sk)
+      res[i] = rao(compute_Sk(x,y, circle = circle)$Sk)
     }
   }
 
@@ -45,7 +46,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
     for (i in 1:B){
       x = runif(m-1)
       y = runif(n)
-      res[i] = van.der.Waerden(compute_Sk(x,y)$Sk)
+      res[i] = van.der.Waerden(compute_Sk(x,y, circle = circle)$Sk)
     }
   }
 
@@ -53,7 +54,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
     for (i in 1:B){
       x = runif(m-1)
       y = runif(n)
-      res[i] = wheeler_watson(compute_Sk(x,y)$Sk)
+      res[i] = wheeler_watson(compute_Sk(x,y, circle = circle)$Sk)
     }
   }
 
@@ -61,7 +62,7 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
     for (i in 1:B){
       x = runif(m-1)
       y = runif(n)
-      res[i] = savage(compute_Sk(x,y)$Sk)
+      res[i] = savage(compute_Sk(x,y, circle = circle)$Sk)
     }
   }
   list(dist = res, n = n, m = m, test = test)
@@ -102,8 +103,8 @@ MC_pvalue = function(stat, n, m, test, B = 10^4, seed = 1982){
 #'
 #' # Dixon test (approximated pvalue)
 #' circular_test( pigeons$experimental, pigeons$control, type = "mc")
-circular_test = function(x, y, test = "dixon", alpha = 0.05, B = NULL, type = "exact", seed = 1982){
-  spacings = compute_Sk(x,y)
+circular_test = function(x, y, test = "dixon", alpha = 0.05, B = NULL, type = "exact", seed = 1982, circle = TRUE){
+  spacings = compute_Sk(x,y, circle = circle)
 
   if (sum(c("exact","mc") %in% type) == 0){
     stop("Unsupported parameter type; available options: exact and mc")
@@ -244,7 +245,7 @@ plot.circular_test = function(x, cex.main = 1){
 #' @examples
 #' data(pigeons)
 #' compute_Sk(pigeons$control, pigeons$experimental)
-compute_Sk = function(x,y){
+compute_Sk = function(x,y, circle){
   x = sort(x)
   n = length(y)
   m = length(x) + 1
@@ -255,6 +256,12 @@ compute_Sk = function(x,y){
   for (i in 2:(m-1)){
     res[i] = sum((y <= x[i])*(y > x[(i-1)]))
   }
+
+  if (circle){
+    res[1] = res[1] + res[m]
+    res = res[-m]
+    m = m - 1
+  }
   list(Sk = res, n = n, m = m)
 }
 
@@ -264,13 +271,13 @@ compute_Sk = function(x,y){
 #' @param \code{m} number of spacings
 #' @return A \code{matrix} with all possible permutations
 #' @export
-#' @importFrom gRbase combnPrim
+#' @importFrom utils combn
 #' @examples
 #' all_permutations(2,2)
 #' all_permutations(4,3)
 all_permutations = function (n = 2, m = 2)
 {
-  comb = combnPrim(n + m - 1, m - 1)
+  comb = combn(n + m - 1, m - 1)
   comb = rbind(comb, n + m)
   if (m > 1){
     i = 2:m
@@ -358,7 +365,7 @@ get_critical_values = function(n, m, test = "dixon", alpha = 0.05){
     stop("Unable to compute critical values (n and/or m are too large)")
   }
 
-  if (min(n,m) < 5){
+  if (min(n,m) < 4){
     stop("Unable to compute critical values (n and/or m are too small)")
   }
 

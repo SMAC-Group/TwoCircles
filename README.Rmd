@@ -98,7 +98,7 @@ To install the `TwoCircles` package, there is currently one option: [GitHub](htt
 
 ```{r, eval = FALSE}
 # Install dependencies
-install.packages(c("gRbase", "circular", "devtools"))
+install.packages(c("circular", "devtools"))
 
 # Install the package from GitHub
 devtools::install_github("SMAC-Group/TwoCircles")

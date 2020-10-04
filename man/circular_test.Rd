@@ -4,8 +4,16 @@
 \alias{circular_test}
 \title{Two sample Test of Homogeneity}
 \usage{
-circular_test(x, y, test = "dixon", alpha = 0.05, B = NULL,
-  type = "exact", seed = 1982)
+circular_test(
+  x,
+  y,
+  test = "dixon",
+  alpha = 0.05,
+  B = NULL,
+  type = "exact",
+  seed = 1982,
+  circle = TRUE
+)
 }
 \arguments{
 \item{\code{x}}{first sample}

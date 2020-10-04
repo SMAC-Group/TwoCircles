@@ -4,11 +4,13 @@
 \name{pigeons}
 \alias{pigeons}
 \title{Homing pigeons dataset}
-\format{A list:
+\format{
+A list:
 \describe{
   \item{control}{release flight direction of the pigeons (control group)}
   \item{experimental}{release flight direction of the pigeons (experimental group)}
-}}
+}
+}
 \source{
 Schmidt-Koenig, K. (1958).
 }
