@@ -8,7 +8,7 @@ Active](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostat
 version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![CRAN](http://www.r-pkg.org/badges/version/TwoCircles)](https://cran.r-project.org/package=TwoCircles)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.1.0-orange.svg?style=flat-square)](commits/develop)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2020--06--13-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2020--10--05-yellowgreen.svg)](/commits/master)
 
 # `TwoCircles` Overview
 
@@ -30,26 +30,26 @@ Schmidt-Koenig (1958).
 data(pigeons)
 
 # Dixon test (exact pvalue)
-circular_test(pigeons$experimental, pigeons$control)
+circular_test(pigeons$control, pigeons$experimental)
 #> 
 #>       Dixon Two Sample Test
 #> 
-#> Data:  pigeons$experimental and pigeons$control
-#> Test Statistic: 41
-#> Exact P-value: 0.02982
+#> Data:  pigeons$control and pigeons$experimental
+#> Test Statistic: 82
+#> Exact P-value: 0.00185
 #> Bracketing Points and Pair of Signif. Levels:
-#> c1 = 35 (p1 = 0.0619)
-#> c2 = 39 (p2 = 0.0471)
+#> c1 = 44 (p1 = 0.0537)
+#> c2 = 46 (p2 = 0.0479)
 
 # Dixon test (approximated pvalue)
-circular_test(pigeons$experimental, pigeons$control, type = "mc")
+circular_test(pigeons$control, pigeons$experimental, type = "mc")
 #> 
 #>       Dixon Two Sample Test
 #> 
-#> Data:  pigeons$experimental and pigeons$control
-#> Test Statistic: 41
-#> Approx. P-value: 0.0437
-#> P-value stand. error: 0.0013297
+#> Data:  pigeons$control and pigeons$experimental
+#> Test Statistic: 82
+#> Approx. P-value: 0.0027
+#> P-value stand. error: 0.0001731
 #> based on 10000 Monte-Carlo replications
 ```
 
@@ -59,8 +59,8 @@ done as follows:
 
 ``` r
 par(mfrow = c(1,2))
-plot(circular_test(pigeons$experimental, pigeons$control), cex.main = 0.7)
-plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^3), cex.main = 0.7)
+plot(circular_test(pigeons$control, pigeons$experimental), cex.main = 0.7)
+plot(circular_test(pigeons$control, pigeons$experimental, type = "mc", B = 10^3), cex.main = 0.7)
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" style="display: block; margin: auto;" />

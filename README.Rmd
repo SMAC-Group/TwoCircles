@@ -36,18 +36,18 @@ The code below presents a simple example with the pigeons dataset of Schmidt-Koe
 data(pigeons)
 
 # Dixon test (exact pvalue)
-circular_test(pigeons$experimental, pigeons$control)
+circular_test(pigeons$control, pigeons$experimental)
 
 # Dixon test (approximated pvalue)
-circular_test(pigeons$experimental, pigeons$control, type = "mc")
+circular_test(pigeons$control, pigeons$experimental, type = "mc")
 ```
 
 It is also possible to compare the exact distribution of the test statistic under $H_0$ to the one obtained by simulations. This can be done as follows:
   
 ```{r, fig.align='center', fig.width=8, fig.height=4, cache = FALSE}
 par(mfrow = c(1,2))
-plot(circular_test(pigeons$experimental, pigeons$control), cex.main = 0.7)
-plot(circular_test(pigeons$experimental, pigeons$control, type = "mc", B = 10^3), cex.main = 0.7)
+plot(circular_test(pigeons$control, pigeons$experimental), cex.main = 0.7)
+plot(circular_test(pigeons$control, pigeons$experimental, type = "mc", B = 10^3), cex.main = 0.7)
 ```
 
 The simulation-based approach is proposed here as an alternative to reduce the computational burden of then method when the samples are too large to allow for the calculation of the exact sampling distribution through exhaustive enumeration of all possible combinations. When the number of Monte-Carlo replication is relatively large (say around $10^3$ or more) the results with the exact and approximated method are very close. In addition, this method also provides an estimate of the standard error associated to the obtained p-value, which is computed by nonparametric bootstrap. The precision of the simulation-based approach is illustrated in the simple simulation presented below where we compared the p-values obtained with the exact and simulation-based method.
